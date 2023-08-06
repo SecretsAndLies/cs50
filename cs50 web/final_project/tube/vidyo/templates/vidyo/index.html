@@ -1,0 +1,11 @@
+
+{% extends "vidyo/layout.html" %}
+{% load static %}
+
+{% block body %}
+<!-- TODO: for logged out users, change this to "videos we think you'll like" -->
+<h2>Your Subscriptions</h2>
+
+{% include 'vidyo/video-meta.html' %}  
+  
+{% endblock %}

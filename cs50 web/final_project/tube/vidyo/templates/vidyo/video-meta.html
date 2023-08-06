@@ -1,0 +1,15 @@
+{% load static %}
+
+{% for video in videos %}
+<div class="media">
+  
+  <a href="{% url 'watch' video.id %}"><img class="mr-3" width="400px" src="{{video.thumbnail.url}}" alt=""></a>
+    <div class="media-body">
+      <h5 class="mt-0">{{video.title}}</h5>
+      Channel: {{video.channel.username}} <br>
+      Comments: {{video.comments.count}} <br>
+      Views: {{video.views.count}} <br>
+      Description: {{video.description}}
+    </div>
+  </div>
+  {% endfor %}

@@ -1,0 +1,27 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<h2>Watchlist</h2>
+<table>
+    <tbody>
+        {% for listing in listings %}
+
+        <tr>
+            <td><img src={{listing.item.imageUrl}} width="200"></td>
+            <td>
+                <h4><a href="{% url 'listing' listing.item.id %}">{{ listing.item.title }}</a></h4>
+                <div>
+                    <strong>Price:</strong> ${{listing.item.currentPrice}}
+                </div>
+                <div> {{listing.item.description}}</div>
+                <div>Created {{listing.item.timeCreated}}</div>
+
+            </td>
+        </tr>
+
+        {% endfor %}
+    </tbody>
+
+</table>
+{% endblock %}

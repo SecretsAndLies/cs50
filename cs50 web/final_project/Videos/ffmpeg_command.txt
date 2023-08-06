@@ -1,0 +1,5 @@
+ffmpeg -i input.mp4 -vf "scale=trunc(iw/10)*2:trunc(ih/10)*2" -c:v libx265 -crf 28 output6.mp4
+
+reduces video size by 1/5th and recompresses to h265 with 28 bitrate (can go up to 30) higher number is worse bitrate
+
+you may also need to add the letterboxing to cast things to a 16:9 (or 4:3) box..

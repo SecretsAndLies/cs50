@@ -1,0 +1,30 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<div class="postform">
+    <form action="{% url 'add' %}" method="post">
+
+        {% csrf_token %}
+
+        {% for field in form %}
+        {% if field.is_hidden %}
+          {{ field }}
+        {% else %}
+          {% if field.field.widget.input_type == "checkbox" %}
+            <!-- checkbox output here -->
+          {% else %}
+            <label for="{{ field.id_for_label }}">
+              {{ field.label }}
+              {% if field.field.required == False %}
+                (optional)
+              {% endif %}
+            </label>
+            <input type="{{ field.field.widget.input_type }}" class="form-control{% if field.errors %} is-invalid{% endif %}" id="{{ field.id_for_label }}" value="{{ field.value|default_if_none:"" }}" name="{{ field.html_name }}"{% if field.help_text %} aria-describedby="{{ field.id_for_label }}_help"{% endif %}{% for name, value in field.field.widget.attrs.items %}{% if value is not False %} {{ name }}{% if value is not True %}="{{ value|stringformat:'s' }}"{% endif %}{% endif %}{% endfor %}{% if field.field.required %}required{% endif %}>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+      
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}

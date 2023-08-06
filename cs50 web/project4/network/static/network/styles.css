@@ -1,0 +1,25 @@
+.postform {
+    border-style: solid;
+    border-color: lightgray;
+    padding: 20px;
+    margin-bottom:20px;
+  }
+
+  .post {
+    border-style: solid;
+    border-color: lightgray;
+    padding: 20px;
+    margin-bottom:5px;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+  
+  .light {
+    color: #a1a1a1;
+  }
+
+  button {margin-top:10px;}
+
+  .body {margin: 20px;}

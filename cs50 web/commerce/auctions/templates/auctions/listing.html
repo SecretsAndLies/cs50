@@ -1,0 +1,85 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h2>Listing: {{listing.title}}</h2>
+{% if message %}
+<div>{{ message }}</div>
+{% endif %}
+
+{% if isWinner and listing.isClosed %}
+<p>You've won!</p>
+{% endif %}
+
+
+{% if user.is_authenticated and not listing.isClosed%}
+{% if isOnWatchlist %}
+<form action="{% url 'watchlist' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" , value="remove" , name="add_or_remove">
+    <input type="hidden" , value="{{listing.id}}" , name="listing_id">
+    <input type="submit" , value="Remove from Watchlist">
+</form>
+{% else %}
+<form action="{% url 'watchlist' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" , value="add" , name="add_or_remove">
+    <input type="hidden" , value="{{listing.id}}" , name="listing_id">
+    <input type="submit" , value="Add to Watchlist">
+</form>
+{% endif %}
+
+{% if isOwner %}
+
+<form action="{% url 'closeItem' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" , value="{{listing.id}}" , name="listing_id">
+    <input type="submit" , value="Close bidding">
+</form>
+{% endif %}
+
+{% endif %}
+
+<img src={{listing.imageUrl}} width="500">
+<div>{{listing.description}}</div>
+<h3>${{listing.currentPrice}}</h3>
+
+{% if user.is_authenticated and not listing.isClosed %}
+<form action="{% url 'bid' %}" method="post">
+    {% csrf_token %}
+    {{bidForm}}
+    <input type="hidden" , value="{{listing.id}}" , name="listing_id">
+    <input type="submit" , value="Bid">
+</form>
+{% endif %}
+
+
+<br>
+<h3>Details</h3>
+<ul>
+    <li>Listed by: {{listing.listingUserName}}</li>
+    <li>Category: {{listing.category}} </li>
+
+</ul>
+
+<h3>Comments</h3>
+
+{% if user.is_authenticated %}
+<form action="{% url 'commentItem' %}" method="post">
+    {% csrf_token %}
+    {{commentForm}}
+    <input type="hidden" , value="{{listing.id}}" , name="listing_id">
+    <input type="submit" , value="Comment">
+</form>
+{% endif %}
+
+{% for comment in comments %}
+
+<p>
+    <strong>{{comment.commenterUserId}}</strong>
+    <small>{{comment.commentTime}} </small>
+    <br>
+    {{comment.commentText}}
+</p>
+{% endfor %}
+
+{% endblock %}

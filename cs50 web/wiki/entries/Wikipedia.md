@@ -1,0 +1,2 @@
+Online magazine.
+adsasd

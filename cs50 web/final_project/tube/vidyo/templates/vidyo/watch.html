@@ -1,0 +1,78 @@
+{% extends "vidyo/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<div>
+<video controls width="500">
+    <source src="{{video.video.url}}" type="video/mp4">
+</video>
+</div>
+
+<!-- TODO: 
+  in javascript?
+  round the rating, and generate the stars. - from 5 to get remaining dark stars.
+Each should be a button that goes to the rating route, maybe with a data attribute of index i+1 (so 1 star is 1)
+--> 
+<div class="rating">
+</div>
+
+{% if isNotSelf %}
+{% if user_is_subscribed %}
+<form action="{% url 'unsubscribe' %}" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="video_id" value="{{video.id}}">
+  <input type="hidden" name="channel_id" value="{{video.channel.id}}">
+  <button type="submit" class="btn btn-primary">Unsubscribe</button>
+</form>
+
+{% else %}
+<form action="{% url 'subscribe' %}" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="video_id" value="{{video.id}}">
+  <input type="hidden" name="channel_id" value="{{video.channel.id}}">
+  <button type="submit" class="btn btn-primary">Subscribe</button>
+</form>
+
+{% endif %}
+
+{% endif %}
+
+<h3>{{video.title}}</h3>
+<div>{{video.description}}</div>
+
+<h4>Views: {{video.views.count}}</h4>
+<h4>{{video.channel.username}}</h4>
+
+
+
+
+<h3>Comments ({{video.comments.count}})</h3>
+
+<form action="{% url 'comment' %}" method="post">
+  {% csrf_token %}
+  {{commentForm}}
+  <input type="hidden" , value="{{video.id}}" , name="video_id">
+  <button type="submit" class="btn btn-light">Post</button>
+</form>
+
+{% for comment in comments %}
+
+<p>
+    <strong>{{comment.channel.username}}</strong>
+    <small>{{comment.timestamp}} </small>
+    <br>
+    {{comment.commentText}}
+</p>
+{% endfor %}
+
+
+{% endblock %}
+
+
+{% block script %}
+<script src="{% static 'vidyo/watch.js' %}"></script>
+{% endblock %}

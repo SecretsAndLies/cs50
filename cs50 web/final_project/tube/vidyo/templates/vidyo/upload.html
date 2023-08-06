@@ -1,0 +1,14 @@
+{% extends "vidyo/layout.html" %}
+{% load static %}
+
+{% block body %}
+<h2>Upload</h2>
+
+<form enctype="multipart/form-data" id="myform" action="{% url 'upload' %}" method="post">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+
+{% endblock %}
